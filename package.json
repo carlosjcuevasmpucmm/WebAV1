@@ -1,0 +1,22 @@
+{
+  "name": "api-shpify",
+  "version": "1.0.0",
+  "description": "Api sohpify para Alexa Skills",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carlosjcuevasmpucmm/WebAV1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carlosjcuevasmpucmm/WebAV1/issues"
+  },
+  "homepage": "https://github.com/carlosjcuevasmpucmm/WebAV1#readme",
+  "dependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
