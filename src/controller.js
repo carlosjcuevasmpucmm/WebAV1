@@ -1,12 +1,22 @@
-const { createOrder, getProduct, getUser} = require('./shopify');
+const { createOrder, getProduct, getProducts, checkout} = require('./shopify');
 
-async function getOrder(req, res) {
+async function getProductCT(req, res) {
     try {
-        const { name } = req.params;
-        const result = await getProduct(name);
-        return res.status(200).json({ result});
+        const { name } = req.query;
+        const products = await getProduct(name);
+        return res.status(200).json({ products});
     } catch(err) {
+        console.log(err)
         return res.status(500).json({ err });
+    }
+}
+
+async function getAllProducts(req, res) {
+    try {
+        const products = await getProducts();
+        return res.status(200).json({products});
+    } catch(err) {
+        return res.status(500).json({ err});
     }
 }
 
@@ -23,26 +33,30 @@ async function createOrders(req, res) {
             variant_id,
             quantity
         }
-        console.log(user);
-        console.log(order)
         const result = await createOrder(user, order);
         return res.status(200).json({result});
     } catch(err) {
+        console.log(err)
         return res.status(500).json({ err})
     }
 }
 
-async function getUserCt(req, res) {
+
+async function getCheckout(req, res) {
     try {
-        const result= await getUser();
-        return res.status(200).json({result});
+        const balance = await checkout(req.params.id)
+        // const balance = await product();
+        return res.status(200).json({balance});
     } catch(err) {
-        return res.status(500).json({ err});
+        console.log(err);
+        const { body} = err.response;
+        return res.status(500).json({ body});
     }
 }
 
 module.exports = {
-    getOrder,
+    getProductCT,
     createOrders,
-    getUserCt
+    getAllProducts,
+    getCheckout
 }
