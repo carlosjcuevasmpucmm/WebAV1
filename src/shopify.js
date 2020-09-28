@@ -12,14 +12,28 @@ async function getProduct(name) {
 }
 
 async function getProducts() {
-    const { id, title, variants} = await shopify.product.list();
-    const variant = cleanData(variants);
-    return {id, title, variant};
+    // const { id, title, variants} = await shopify.product.list();
+    // console.log(variants);
+    const result = await shopify.product.list();
+    const products = cleanData2(result);
+    // return {id, title, variant};
+    return products;
 }
 function cleanData(variants) {
     return variants.map((variant) => {
         const {id, product_id, title, price, inventory_quantity} = variant;
         return {id, product_id, title, price, inventory_quantity}
+    })
+}
+
+function cleanData2(array) {
+    return array.map(product => {
+        const { id, title, variants} = product;
+        const variant = variants.map(variant => {
+            const { product_id, title: title_product, price, inventory_quantity} = variant;
+            return { product_id, title: title_product, price, inventory_quantity}
+        })
+        return { id, title, variant};
     })
 }
 async function product() {
